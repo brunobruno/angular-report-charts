@@ -1,0 +1,130 @@
+@import "styles";
+::ng-deep{
+    .mat-select-arrow {
+        min-width:1px;
+        border-left: 6px solid transparent!important;
+        border-right: 6px solid transparent!important;
+        border-top: 10px solid $white!important;
+        margin-right: 10px!important;
+    }
+    .mat-select-value-text{
+        color:$white;
+        padding-left:10px;
+    }
+
+    .mat-form-field-infix{
+        background-color:$green;
+        border-radius:5px;
+        margin:0 11px;
+        padding-top:0!important;
+        mat-label{
+            color:$green;
+        }
+        .mat-empty{
+            mat-label{
+                color:$white;
+                padding-left:10px;
+                padding-bottom:10px;
+            }
+        }
+    }
+    .mat-form-field-suffix {
+        position: absolute!important;
+        right: 25px;
+        top: 7px;
+        .mat-icon-button{
+            margin-right:-5px;
+        }
+    }
+    .mat-form-field-outline {
+        opacity: 0!important;
+        border-style: none;
+    }
+    .mat-form-field-underline {
+        display: none;
+      }
+
+    .mat-datepicker-input {
+        padding-left:10px!important; 
+    }
+    .mat-button{
+        height:34px;
+        margin:0 11px;
+    }
+    .mat-form-field-label {
+        position: absolute!important;
+        top: 12px!important;
+        left: 15px!important;
+    }
+}
+.dashboard{
+    border-radius:10px;
+    h3{
+        font-weight: bold;
+    }
+    mat-expansion-panel{
+        border-radius:10px;
+        margin-bottom:5px;
+        box-shadow:none;
+        mat-panel-title{
+            font-weight: bold;
+            display:flex;
+            justify-content: space-between;
+        }
+    }
+    .list{
+        padding:5px;
+        &:nth-of-type(even) {
+            background-color: $blueLight ;
+        }
+    }
+}
+
+.total{
+    color:$black;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-left:10px;
+    margin-top:1rem;
+    height:48px;
+}
+
+.filters{
+    padding-right:3rem;
+}
+.no-projects{
+    margin-top: 5rem;
+    p{
+        color:$gray;
+        line-height: .5rem;
+    }
+    h1{
+        font-weight:bold;
+        color:$black;
+    }
+    img{
+        margin-top:2rem;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .no-projects {
+        p{
+            line-height: 1rem;
+        }
+        img{
+            width:100%;
+        }
+    }
+    .dashboard{
+        padding:0;
+        margin-top:2rem;
+        width:100%;
+    }
+    .reports,.wrapper{
+        flex-direction: column;
+        .chart,.chart > div{
+            width:100%;
+        }
+    }
+}

@@ -1,0 +1,43 @@
+<mat-toolbar class="header primary-bg d-flex white-text j-between">
+
+	<div class="logo-wrapper d-flex j-center">
+		<img src="/assets/images/logo.svg"/>
+		<button
+			mat-button
+			(click)="sidenav.toggle()">
+			<img src="/assets/images/menu.svg"/>
+		</button>
+	</div>
+
+	<div class="avatar-wrapper d-flex a-center">
+		<div class="avatar bg-yellow tx-white">
+			{{activeUser?.firstName[0]}}{{activeUser?.lastName[0]}}
+		</div>
+		<div class="tx-primary">{{activeUser?.firstName}} {{activeUser?.lastName}}</div>
+	</div>
+
+</mat-toolbar>
+
+<mat-sidenav-container>
+
+	<mat-sidenav
+		#sidenav
+		mode="side"
+		class="menu"
+		[(opened)]="opened">
+		<img src="/assets/images/menuicons.svg"/>
+	</mat-sidenav>
+
+	<mat-sidenav-content class="container">
+		<router-outlet></router-outlet>
+	</mat-sidenav-content>
+
+</mat-sidenav-container>
+
+<footer class="footer d-flex tx-primary a-center">
+
+	<a href="">Terms&Conditions</a>
+	<a href="">Privacy policy</a>
+	
+</footer>
+

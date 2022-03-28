@@ -1,0 +1,80 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+$green: #1BC5BD;
+$blue: #005B96;
+$blueLight : #F1FAFE;
+$yellow: #F6CA65;
+$white: #FFFFFF;
+$gray: #7E8299;
+$black: #011F4B;
+$primary: $blue;
+$secondary: $blueLight;
+
+//generate classes
+$colours:
+'primary' $primary,
+'secondary' $secondary,
+'green' $green,
+'blue'$blue,
+'blue-light'$blueLight,
+'yellow'$yellow,
+'white'$white,
+'gray'$gray,
+'black'$black;
+
+@each $i in $colours{
+	.bg-#{nth($i, 1)} {//background
+		background-color: nth($i, 2);
+	}
+	.tx-#{nth($i, 1)} {//text color
+		color:nth($i, 2);
+	}
+}
+
+$sizes :1,2,3,4,5,6,7,8,9,10;
+@each $i in $sizes{
+    .w-#{$i}00 {
+		width: #{$i}00#{'%'};
+	}
+    .w-#{$i}0 {
+		width: #{$i}0#{'%'};
+	}
+}
+
+//helperClasses
+.d-flex{
+    display:flex;
+}
+.j-between{
+    justify-content: space-between;
+}
+.j-center{
+    justify-content: center;
+}
+.a-center{
+    align-items:center;
+}
+.p-1{
+    padding:1rem;
+}
+.m-0{
+    margin:0;
+}
+.mt-2{
+    margin-top:2rem;
+}
+.tx-center{
+    text-align:center;
+}
+.tx-right{
+    text-align:right;
+}
+.y-scroll{
+    overflow-y: auto;
+    & > div{
+        min-width:40rem;
+    }
+}

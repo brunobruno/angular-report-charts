@@ -1,0 +1,127 @@
+<div class="reports d-flex j-between">
+
+	<div class="mt-2">
+		<h1 class="m-0">Reports</h1>
+		<h2 class="m-0 tx-gray">Easily generate a report of your transactions</h2>
+	</div>
+
+	<div class="filters mt-2">
+		<mat-form-field>
+			<mat-select #project value="">
+			  <mat-option *ngFor="let project of projects" [value]="project.projectId">
+				{{project.name}}
+			  </mat-option>
+			</mat-select>
+		</mat-form-field>
+		
+		<mat-form-field>
+			<mat-select #gateway value="">
+				<mat-option *ngFor="let gateway of gateways" [value]="gateway.gatewayId">
+				{{gateway.name}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+		
+		<mat-form-field>
+			<mat-label>From date</mat-label>
+			<input class="tx-white" matInput #pickerFromDate [matDatepicker]="pickerFrom" disabled/>
+			<mat-datepicker-toggle matSuffix [for]="pickerFrom">
+				<span matDatepickerToggleIcon><img matDatepickerToggleIcon src="/assets/images/calendar.svg"/></span>
+			</mat-datepicker-toggle>
+			<mat-datepicker #pickerFrom disabled="false"></mat-datepicker>
+		</mat-form-field>
+		
+		<mat-form-field>
+			<mat-label>To date</mat-label>
+			<input class="tx-white" matInput #pickerToDate [matDatepicker]="pickerTo" disabled/>
+			<mat-datepicker-toggle matSuffix [for]="pickerTo">
+				<span matDatepickerToggleIcon><img matDatepickerToggleIcon src="/assets/images/calendar.svg"/></span>
+			</mat-datepicker-toggle>
+			<mat-datepicker #pickerTo disabled="false"></mat-datepicker>
+		</mat-form-field>
+	
+		<button
+			mat-button
+			class="bg-blue tx-white"
+			(click)="postReport(pickerFromDate.value,pickerToDate.value,project.value,gateway.value)">
+			Generate Report
+		</button>
+	</div>
+
+</div>
+
+<ng-container *ngIf="reportObj.length; else noProjects">
+
+	<div class="wrapper d-flex">
+		
+		<div class="dashboard bg-blue-light p-1" [ngClass]="showChart.length === 1 ? 'w-50' : 'w-100'">
+
+			<h3>{{selectedProject}} | {{selectedGateway}}</h3>
+
+			<mat-accordion *ngFor="let report of reportObj">
+				<mat-expansion-panel hideToggle>
+					<mat-expansion-panel-header>
+						<mat-panel-title>
+							<span>{{report.projectId}}</span>
+							<span>Total: {{report.totalAmount | number }} USD</span>
+						</mat-panel-title>
+					</mat-expansion-panel-header>
+					<div class="y-scroll">
+						<div class="d-flex j-between">
+							<div>Date</div>
+							<div
+								class="w-10 tx-center"
+								[hidden]="showChart.length === 1">
+								Gateway</div>
+							<div>Transaction ID</div>
+							<div class="w-10 tx-right">Amount</div>
+						</div>
+						<div class="list d-flex j-between" *ngFor="let item of report.items">
+							<div>{{item.created | date: 'dd/MM/yyyy'}}</div>
+							<div
+								[hidden]="showChart.length === 1"
+								class="w-10 tx-center">
+								{{item.gatewayId}}</div>
+							<div>{{item.paymentId}}</div>
+							<div class="w-10 tx-right">{{item.amount}}</div>
+						</div>
+					</div>
+				</mat-expansion-panel>
+			</mat-accordion>
+
+			<div
+				*ngIf="showChart.length >= 2"	
+				class="total tx-primary d-flex a-center mt-2 bg-blue-light">
+				Total | {{chartTotal | number }} USD
+			</div>
+
+		</div>
+
+		<div
+			*ngIf="showChart.length === 1"
+			class="w-50 d-flex j-center chart">
+			<div class="w-50">
+				<canvas
+					baseChart
+					[data]="chartData"
+					[type]="chartType">
+				</canvas>
+				<div class="total tx-primary d-flex a-center bg-blue-light">
+					Total | {{chartTotal | number }} USD
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</ng-container>
+
+<ng-template #noProjects>
+	<div class="no-projects w-100 tx-center">
+		<h1>No reports</h1>
+			<p>Currently you have no data for the reports to be generated.</p>
+			<p>Once you start generating traffic through the Balance application </p>
+			<p>the reports will be shown.</p>
+			<img src="/assets/images/noreport.svg"/>
+	</div>
+</ng-template>
