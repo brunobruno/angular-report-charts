@@ -48,11 +48,24 @@ export class ReportsComponent implements OnInit {
         this.selectedProject= this.getProjectOrGatewayNameById(projectId,'p')
         //call api
         const reports = await apiServices.apiPostReport(from, to, projectId, gatewayId)
-		//group results by project
-        const groupByProjectId = reports.reduce((r: any, a: any) => {
-            r[a.projectId] = [...(r[a.projectId] || []), a]
-            return r;
-        }, [])
+        //group by projects or gateways
+        let groupBy = 'p'
+        let groupElements
+
+        if(projectId && !gatewayId){
+            groupBy = 'g'
+            groupElements = reports.reduce((r: any, a: any) => {
+                r[a.gatewayId] = [...(r[a.gatewayId] || []), a]
+                return r;
+            }, [])
+        }else{
+            groupBy = 'p'
+            groupElements = reports.reduce((r: any, a: any) => {
+                r[a.projectId] = [...(r[a.projectId] || []), a]
+                return r;
+            }, [])
+        }
+
 		//reset reports data
 		this.reportObj = []
 		this.chartLabels = []
@@ -65,18 +78,19 @@ export class ReportsComponent implements OnInit {
 			}],
 		};
         //generate report for interface
-        for (const [key, value] of Object.entries(groupByProjectId)) {
+        for (const [key, value] of Object.entries(groupElements)) {
             const valuesArray: any = value
-			const projectName : string = this.getProjectOrGatewayNameById(key,'p')
+			const projectName : string = this.getProjectOrGatewayNameById(key,groupBy)
 			const totalAmount : number = valuesArray.reduce((total: any, currentValue: any) => { return total + currentValue.amount}, 0)
 			//generate chart
 			this.chartLabels.push(projectName)
 			this.chartValues.push(totalAmount)
+
 			//generate report data
             this.reportObj.push({
                 projectId: projectName,
                 totalAmount: totalAmount,
-                items: value
+                items: valuesArray.sort((a:any,b:any) =>  new Date(b.created).getTime() - new Date(a.created).getTime())
             })
         }
         //total amount all
